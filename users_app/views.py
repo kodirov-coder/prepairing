@@ -3,10 +3,11 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse
 
-from .forms import UserLoginForm
+from .forms import UserLoginForm, UserRegisterForm
 
 def login_view(request):
     if request.method == "POST":
+        print(request.POST)
         form = UserLoginForm(data=request.POST)
         if form.is_valid():
             username = request.POST['username']
@@ -22,4 +23,13 @@ def login_view(request):
     return render(request, "users/login.html", context)
 
 def register_view(request):
-    return render(request, "users/register.html")
+    if request.method == "POST":
+        form = UserRegisterForm(data=request.POST)
+        if form.is_valid():
+            form.save()
+            return HttpResponseRedirect(reverse("users:login"))
+    form = UserRegisterForm()
+    context = {
+        "form": form
+    }
+    return render(request, "users/register.html", context)
