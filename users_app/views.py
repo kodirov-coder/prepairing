@@ -3,7 +3,7 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse
 
-from .forms import UserLoginForm, UserRegisterForm
+from .forms import UserLoginForm, UserRegisterForm, ProfileForm
 
 def login_view(request):
     if request.method == "POST":
@@ -32,3 +32,18 @@ def register_view(request):
         "form": form
     }
     return render(request, "users/register.html", context)
+
+def profile_view(request):
+    if request.method == "POST":
+        form = ProfileForm(data=request.POST, instance=request.user, files=request.FILES)
+        if form.is_valid():
+            form.save()
+            return HttpResponseRedirect(reverse("users:profile"))
+        else:
+            print(form.errors)
+    else:
+        form = ProfileForm(instance=request.user)
+    context = {
+        "form": form
+    }
+    return render(request, "users/profile.html", context)

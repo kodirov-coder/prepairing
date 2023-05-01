@@ -8,7 +8,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Store</title>
+    <title>Store - {% block title %}{% endblock title %}</title>
 
     <!-- Bootstrap core CSS -->
     <link href="{% static 'bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
@@ -43,7 +43,7 @@
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                         <li>
-                            <a class="dropdown-item" href="users/profile.html">Profil</a>
+                            <a class="dropdown-item" href="{% url 'users:profile' %}">Profil</a>
                         </li>
                         <li><a class="dropdown-item" href="orders/orders.html">Buyurtmalar</a></li>
                         <li><a class="dropdown-item" href="#">Admin sahifasi</a></li>
