@@ -7,7 +7,6 @@ from .forms import UserLoginForm, UserRegisterForm
 
 def login_view(request):
     if request.method == "POST":
-        print(request.POST)
         form = UserLoginForm(data=request.POST)
         if form.is_valid():
             username = request.POST['username']
