@@ -1,4 +1,4 @@
-from django.contrib import auth
+from django.contrib import auth, messages
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse
@@ -12,10 +12,12 @@ def login_view(request):
             username = request.POST['username']
             password = request.POST['password']
             user = auth.authenticate(username=username, password=password)
+            print("1-if ishladi")
             if user:
                 auth.login(request, user)
                 return HttpResponseRedirect(reverse('products:main-page'))
-    form = UserLoginForm()
+    else:
+        form = UserLoginForm()
     context = {
         'form': form
     }
@@ -26,8 +28,10 @@ def register_view(request):
         form = UserRegisterForm(data=request.POST)
         if form.is_valid():
             form.save()
+            messages.success(request, "Siz muvaffaqiyatli tarzda ro'yxatdan o'tdingiz!")
             return HttpResponseRedirect(reverse("users:login"))
-    form = UserRegisterForm()
+    else:
+        form = UserRegisterForm()
     context = {
         "form": form
     }
