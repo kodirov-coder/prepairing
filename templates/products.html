@@ -70,7 +70,7 @@
                                 <p class="card-text">{{ product.descriptions }}</p>
                             </div>
                             <div class="card-footer text-center">
-                                <button type="button" class="btn btn-outline-success">Savatga qo'shish</button>
+                                <a href="{% url 'products:basket-add' product.id %}" class="btn btn-outline-success">Savatga qo'shish</a>
                             </div>
                         </div>
                     </div>
