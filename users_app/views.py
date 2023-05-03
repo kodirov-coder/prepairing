@@ -42,6 +42,7 @@ def profile_view(request):
         form = ProfileForm(data=request.POST, instance=request.user, files=request.FILES)
         if form.is_valid():
             form.save()
+            messages.success(request, "Ma'lumotlar yangilandi!")
             return HttpResponseRedirect(reverse("users:profile"))
         else:
             print(form.errors)
@@ -51,3 +52,7 @@ def profile_view(request):
         "form": form
     }
     return render(request, "users/profile.html", context)
+
+def logout_view(request):
+    auth.logout(request)
+    return HttpResponseRedirect(reverse("products:main-page"))
