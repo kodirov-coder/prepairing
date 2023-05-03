@@ -4,6 +4,7 @@ from django.shortcuts import render
 from django.urls import reverse
 
 from .forms import UserLoginForm, UserRegisterForm, ProfileForm
+from products_app.models import Basket
 
 def login_view(request):
     if request.method == "POST":
@@ -49,7 +50,8 @@ def profile_view(request):
     else:
         form = ProfileForm(instance=request.user)
     context = {
-        "form": form
+        "form": form,
+        "baskets": Basket.objects.filter(user=request.user)
     }
     return render(request, "users/profile.html", context)
 
