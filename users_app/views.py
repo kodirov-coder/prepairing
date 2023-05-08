@@ -1,4 +1,5 @@
 from django.contrib import auth, messages
+from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse
@@ -38,6 +39,7 @@ def register_view(request):
     }
     return render(request, "users/register.html", context)
 
+@login_required
 def profile_view(request):
     if request.method == "POST":
         form = ProfileForm(data=request.POST, instance=request.user, files=request.FILES)
