@@ -21,13 +21,23 @@ class Product(models.Model):
     def __str__(self):
         return f"{self.category} --> {self.name}"
 
+
+class BasketsQuerySet(models.QuerySet):
+    def get_total_quantity(self):
+        return sum(basket.quantity for basket in self)
+
+    def get_total_price(self):
+        return sum(basket.get_price() for basket in self)
+
 class Basket(models.Model):
     user = models.ForeignKey(to=Users, on_delete=models.CASCADE)
     product = models.ForeignKey(to=Product, on_delete=models.CASCADE)
     quantity = models.PositiveSmallIntegerField()
     creater_timestamp = models.DateTimeField(auto_now_add=True)
+    objects = BasketsQuerySet.as_manager()
 
     def __str__(self):
         return f"{self.user.username} uchun savatcha | Mahsulot: {self.product.name}, {self.quantity} dona"
     
-    
+    def get_price(self):
+        return self.product.price*self.quantity
