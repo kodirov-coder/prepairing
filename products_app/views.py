@@ -1,21 +1,29 @@
 from django.contrib.auth.decorators import login_required
+from django.core.paginator import Paginator
 from django.shortcuts import render, HttpResponseRedirect
+from django.views.generic.base import TemplateView
+
 from .models import Product, ProductCategory, Basket
 
 
-def index(request):
-    return render(request, "index.html")
+class IndexView(TemplateView):
+    template_name = "index.html"
+    def get_context_data(self, **kwargs):
+        context = super(IndexView, self).get_context_data()
+        context["title"]="Hush kelibsiz"
+        return context
 
-
-def products(request, category_id=None):
+def products(request, category_id=None, page=1):
     if category_id:
         products = Product.objects.filter(category_id=category_id)
     else:
         products = Product.objects.all()
     category = ProductCategory.objects.all()
-
+    per_page = 3
+    paginator = Paginator(products, per_page)
+    products_paginator = paginator.page(page)
     context = {
-        "products": products,
+        "products": products_paginator,
         "categorys": category
     }
     return render(request, "products.html", context)
