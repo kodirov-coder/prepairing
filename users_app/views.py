@@ -17,7 +17,7 @@ def login_view(request):
             print("1-if ishladi")
             if user:
                 auth.login(request, user)
-                return HttpResponseRedirect(reverse('products:main-page'))
+                return HttpResponseRedirect(reverse('main-page'))
     else:
         form = UserLoginForm()
     context = {
@@ -59,4 +59,4 @@ def profile_view(request):
 
 def logout_view(request):
     auth.logout(request)
-    return HttpResponseRedirect(reverse("products:main-page"))
+    return HttpResponseRedirect(reverse("main-page"))
