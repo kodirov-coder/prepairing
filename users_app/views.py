@@ -1,6 +1,7 @@
 from django.contrib.auth.views import LoginView
 from django.urls import reverse_lazy
 from django.views.generic.edit import CreateView, UpdateView
+from django.views.generic.base import TemplateView
 from django.contrib.messages.views import SuccessMessageMixin
 
 from .forms import UserLoginForm, UserRegisterForm, ProfileForm
@@ -32,3 +33,12 @@ class UserProfileView(SuccessMessageMixin, UpdateView):
         context = super(UserProfileView, self).get_context_data()
         context["baskets"] = Basket.objects.filter(user=self.object)
         return context
+
+class EmailVerificationView(TemplateView):
+    template_name = "users/email_verification.html"
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data()
+        context["title"] = "Email pochtani tasdiqlash"
+        
+    def get(self, request, *args, **kwargs):
+        return super(EmailVerificationView, self).get(request, *args, **kwargs)
